@@ -25,6 +25,7 @@
     "postcss-loader": "^4.2.0",
     "rollup-plugin-hot": "^0.1.1",
     "rollup-plugin-svelte-hot": "^0.13.0",
+    "rollup-plugin-uglify": "^6.0.4",
     "sirv-cli": "^1.0.0",
     "smelte": "^1.0.18",
     "svelte-materialify": "^0.3.4",
