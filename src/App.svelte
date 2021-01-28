@@ -1,5 +1,5 @@
 <script>
-  import { Button } from 'svelte-materialify';
+  import Button from '@/components/Button.svelte'
   export let name;
 </script>
 
@@ -7,8 +7,7 @@
   <h1 class="text-red-200">
     {name} Svlete HMR 2021!
   </h1>
-  <Button class="red white-text">Red Text Material</Button>
-  <Button outlined class="primary-text">Primary Material</Button>
+    <Button />
   <p>
     Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn
     how to build Svelte apps.

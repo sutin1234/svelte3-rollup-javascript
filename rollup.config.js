@@ -4,9 +4,10 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
-const { preprocess } =  require('./svelte.config');
+import preprocess from './svelte.config';
 import hmr from 'rollup-plugin-hot'
-import { uglify } from 'rollup-plugin-uglify';
+// import { uglify } from 'rollup-plugin-uglify';
+import alias from '@rollup/plugin-alias';
 
 
 const production = !process.env.ROLLUP_WATCH;
@@ -42,12 +43,13 @@ export default {
 	input: 'src/main.js',
 	output: {
 		sourcemap: true,
-		format: 'life',
+		format: 'iife',
 		name: 'app',
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
 		svelte({
+			// customElement: true,
 			hot: isHot && {
 				optimistic: true,
 				noPreserveState: false,
@@ -66,12 +68,17 @@ export default {
 		commonjs(),
 		isDev && !isNollup && serve(),
 		isLiveReload && livereload('public'),
-		production && terser() && uglify(),
+		production && terser(),
 		hmr({
 			public: 'public',
 			inMemory: true,
 			compatModuleHot: !isHot,
 		}),
+		alias({
+      entries: [
+        { find: '@', replacement: 'src' }
+      ]
+    })
 	],
 	watch: {
 		clearScreen: false

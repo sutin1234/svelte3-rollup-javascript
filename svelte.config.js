@@ -1,6 +1,6 @@
 const sveltePreprocess = require('svelte-preprocess');
 
-module.exports = {
+export default {
     preprocess: sveltePreprocess({
         scss: {
             includePaths: ['theme'],
