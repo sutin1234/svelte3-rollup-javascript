@@ -1,14 +1,14 @@
 <script>
-  // import "./tailwind.css";
-  // import "smelte/src/tailwind.css";
-  // import Button from "smelte/src/components/Button";
   import { Button } from 'svelte-materialify';
   export let name;
 </script>
 
 <main>
-  <h1 class="text-red-200">Hello {name}!</h1>
-  <Button class="red white-text">Red</Button>
+  <h1 class="text-red-200">
+    {name} Svlete HMR 2021!
+  </h1>
+  <Button class="red white-text">Red Text Material</Button>
+  <Button outlined class="primary-text">Primary Material</Button>
   <p>
     Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn
     how to build Svelte apps.

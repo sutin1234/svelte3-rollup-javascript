@@ -1,11 +1,20 @@
-import svelte from 'rollup-plugin-svelte';
+import svelte from 'rollup-plugin-svelte-hot';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
-const smelte = require("smelte/rollup-plugin-smelte");
+const { preprocess } = require('./svelte.config');
+import hmr from 'rollup-plugin-hot'
+
+
 const production = !process.env.ROLLUP_WATCH;
+const isNollup = !!process.env.NOLLUP
+const isWatch = !!process.env.ROLLUP_WATCH
+const isLiveReload = !!process.env.LIVERELOAD
+
+const isDev = isWatch || isLiveReload
+const isHot = isWatch && !isLiveReload
 
 function serve() {
 	let server;
@@ -38,21 +47,33 @@ export default {
 	},
 	plugins: [
 		svelte({
-			compilerOptions: {
-				dev: !production
-			}
+			hot: isHot && {
+				optimistic: true,
+				noPreserveState: false,
+			},
+			css: css => {
+				css.write(isNollup ? 'build/bundle.css' : 'bundle.css')
+			},
+			dev: !production
 		}),
+		preprocess,
 		css({ output: 'bundle.css' }),
 		resolve({
 			browser: true,
 			dedupe: ['svelte']
 		}),
 		commonjs(),
-		!production && serve(),
-		!production && livereload('public'),
+		isDev && !isNollup && serve(),
+		isLiveReload && livereload('public'),
 		production && terser(),
+		hmr({
+			public: 'public',
+			inMemory: true,
+			compatModuleHot: !isHot,
+		}),
 	],
 	watch: {
 		clearScreen: false
-	}
+	},
+	
 };
